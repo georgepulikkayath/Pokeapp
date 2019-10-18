@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Pokemon Viewer</title>
+</head>
+<body>
+
+	<h3>Pokemon Viewer by ID</h3>
+	<input id="pid" type="text">
+	
+	<button onclick="getPokemon()">Get Pokemon</button>
+	<p id="result"></p>
+
+</body>
+
+<script>
+
+function getPokemon() {
+	
+	let pid = document.getElementById("pid").value;
+
+	let xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if(this.readyState == 4 && this.status == 200) {
+			let pokemon = JSON.parse(this.responseText);
+
+			let information = ` <h3>id: ${pokemon.id}</h3>
+								<h3>name: ${pokemon.name}</h3>
+								<h3>type: ${pokemon.type}</h3>`
+			
+			document.getElementById("result").innerHTML = information;
+		}
+	}
+
+	xhttp.open("GET", "http://localhost:8080/PokeApp/getPokemon.do?id=" + pid, true);
+	xhttp.send();
+}
+
+</script>
+</html>
